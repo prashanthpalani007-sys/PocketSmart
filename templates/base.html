@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PocketSmart AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/dashboard"><span class="brand-mark" aria-hidden="true">₹</span>Pocket<em>Smart</em></a>
+    {% if user %}
+    {% set p = request.url.path %}
+    <nav aria-label="Main">
+      <a href="/home-planner" {% if p == '/home-planner' %}class="active" aria-current="page"{% endif %}>Home</a>
+      <a href="/party-planner" {% if p == '/party-planner' %}class="active" aria-current="page"{% endif %}>Party</a>
+      <a href="/jewelry-planner" {% if p == '/jewelry-planner' %}class="active" aria-current="page"{% endif %}>Jewelry</a>
+      <a href="/history" {% if p == '/history' %}class="active" aria-current="page"{% endif %}>History</a>
+      <a href="/logout" class="quiet">Log out ({{ user.username }})</a>
+    </nav>
+    {% endif %}
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="foot">PocketSmart AI &middot; Plan smarter within your budget</footer>
+  <script>
+    document.querySelectorAll("form[data-loading]").forEach(function (f) {
+      f.addEventListener("submit", function () {
+        var b = f.querySelector("button[type=submit]");
+        b.disabled = true; b.textContent = "Working out your plan...";
+      });
+    });
+  </script>
+</body>
+</html>

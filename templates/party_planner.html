@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Party planner - PocketSmart AI{% endblock %}
+{% block content %}
+<span class="eyebrow">🎉 Party</span>
+<h1>Party planner</h1>
+<p class="lead">Share the guest count and event type for a plan that fits your budget.</p>
+<form method="post" action="/generate-party" data-loading class="card-form">
+  <label>Total budget (₹) <input name="budget" type="number" min="1" step="1" required placeholder="30000"></label>
+  <label>Number of guests <input name="guests" type="number" min="1" max="5000" required placeholder="40"></label>
+  <label>Event type
+    <select name="event_type"><option>Birthday</option><option>Wedding</option><option>Corporate</option><option>Anniversary</option><option>Baby shower</option><option>Farewell</option></select>
+  </label>
+  <label>Venue details <input name="venue" maxlength="200" placeholder="Home terrace, banquet hall, rooftop..."></label>
+  <label>City <input name="city" maxlength="80" placeholder="Chennai"></label>
+  <fieldset><legend>Include</legend>
+    <label class="inline"><input type="checkbox" name="services" value="catering" checked> Catering</label>
+    <label class="inline"><input type="checkbox" name="services" value="decoration" checked> Decoration</label>
+    <label class="inline"><input type="checkbox" name="services" value="entertainment" checked> Entertainment</label>
+    <label class="inline"><input type="checkbox" name="services" value="venue or stay"> Venue or guest stay</label>
+  </fieldset>
+  <button type="submit">Plan my party</button>
+</form>
+{% endblock %}

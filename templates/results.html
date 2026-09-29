@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - PocketSmart AI{% endblock %}
+{% block content %}
+<span class="eyebrow">{{ category|capitalize }} plan</span>
+<h1>{{ title }}</h1>
+{% if result.source == "fallback" %}
+<p class="note bad">The AI did not respond, so this is a default plan. Check your API key and try again for tailored results.</p>
+{% endif %}
+{% if result.over_budget %}
+<p class="note bad">This plan is slightly over budget. Remove an item or try again.</p>
+{% endif %}
+<p class="lead">{{ result.summary }}</p>
+
+<div class="budget">
+  <div class="figures">
+    <span>Budget <strong>₹{{ "{:,.0f}".format(result.budget) }}</strong></span>
+    <span>Planned <strong>₹{{ "{:,.0f}".format(result.total) }}</strong></span>
+    <span>{{ "Left" if result.remaining >= 0 else "Over by" }}
+      <strong>₹{{ "{:,.0f}".format(result.remaining|abs) }}</strong></span>
+  </div>
+  <div class="bar" role="img" aria-label="Budget split by category">
+    {% for s in result.sections %}
+    <span class="seg s{{ loop.index0 % 5 }}" style="width: {{ ([s.spent / result.budget * 100, 100]|min)|round(1) }}%"
+          title="{{ s.title }}: ₹{{ '{:,.0f}'.format(s.spent) }}"></span>
+    {% endfor %}
+  </div>
+  <ul class="legend">
+    {% for s in result.sections %}
+    <li><i class="dot s{{ loop.index0 % 5 }}"></i>{{ s.title }} ₹{{ "{:,.0f}".format(s.spent) }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% for s in result.sections %}
+<section class="group">
+  <h2>{{ s.title }} <small>₹{{ "{:,.0f}".format(s.spent) }}</small></h2>
+  <div class="items">
+    {% for i in s["items"] %}
+    <article class="item">
+      <h3>{{ i.name }}{% if i.quantity > 1 %} <small>x{{ i.quantity }}</small>{% endif %}</h3>
+      <p class="price">₹{{ "{:,.0f}".format(i.price) }}</p>
+      <p>{{ i.reason }}</p>
+      <a class="btn" href="{{ i.link }}" target="_blank" rel="noopener">Search on {{ i.platform }}</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+{% if result.tips %}
+<h2>Ways to save</h2>
+<ul class="tips">{% for t in result.tips %}<li>{{ t }}</li>{% endfor %}</ul>
+{% endif %}
+<p class="hint">Prices are AI estimates. Check the live price on each platform before buying.</p>
+<div class="actions"><a class="btn" href="/{{ category }}-planner">Make another plan</a> <a class="btn ghost" href="/history">All plans</a></div>
+{% endblock %}

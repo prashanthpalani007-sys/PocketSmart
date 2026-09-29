@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - PocketSmart AI{% endblock %}
+{% block content %}
+<section class="hero">
+  <span class="eyebrow">Dashboard</span>
+  <h1>What are you planning, {{ user.username }}?</h1>
+  <p>Pick a planner and get a budget-friendly plan with prices and shopping links in seconds.</p>
+</section>
+<div class="choices">
+  <a class="choice" href="/home-planner"><span class="ico" aria-hidden="true">🛋️</span><h2>Home interior</h2><p>Lights, fans, furniture and decor for each room.</p><span class="go">Start planning</span></a>
+  <a class="choice" href="/party-planner"><span class="ico" aria-hidden="true">🎉</span><h2>Party</h2><p>Catering, venue and decoration split by guest count.</p><span class="go">Start planning</span></a>
+  <a class="choice" href="/jewelry-planner"><span class="ico" aria-hidden="true">💍</span><h2>Jewelry</h2><p>Pieces that suit the occasion and your outfit photo.</p><span class="go">Start planning</span></a>
+</div>
+<h2>Recent plans</h2>
+{% if recent %}
+<ul class="recent">
+  {% for r in recent %}
+  <li><a href="/recommendations-details/{{ r.id }}">
+    <span class="r-title">{{ r.category|capitalize }} plan</span>
+    <span class="r-meta">Budget ₹{{ "{:,.0f}".format(r.inputs_data.budget) }} &middot; {{ r.created_at.strftime("%d %b %Y") }}</span>
+  </a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">No plans yet. Pick a planner above to make your first one.</p>
+{% endif %}
+{% endblock %}

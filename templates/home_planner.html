@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Home planner - PocketSmart AI{% endblock %}
+{% block content %}
+<span class="eyebrow">🛋️ Home</span>
+<h1>Home interior planner</h1>
+<p class="lead">Tell us your budget and rooms. We'll split it across the things you need.</p>
+<form method="post" action="/generate-home" data-loading class="card-form">
+  <label>Total budget (₹) <input name="budget" type="number" min="1" step="1" required placeholder="50000"></label>
+  <fieldset><legend>Rooms</legend>
+    <label class="inline"><input type="checkbox" name="rooms" value="Living room" checked> Living room</label>
+    <label class="inline"><input type="checkbox" name="rooms" value="Kitchen"> Kitchen</label>
+    <label class="inline"><input type="checkbox" name="rooms" value="Bedroom"> Bedroom</label>
+    <label class="inline"><input type="checkbox" name="rooms" value="Dining area"> Dining area</label>
+  </fieldset>
+  <label>Style
+    <select name="style"><option>Modern</option><option>Minimal</option><option>Traditional</option><option>Scandinavian</option><option>Industrial</option></select>
+  </label>
+  <fieldset><legend>How many of each?</legend>
+    <div class="grid5">
+      <label>Lights <input name="lights" type="number" min="0" max="50" value="0"></label>
+      <label>Ceiling fans <input name="fans" type="number" min="0" max="50" value="0"></label>
+      <label>Dining tables <input name="dining_tables" type="number" min="0" max="50" value="0"></label>
+      <label>Sofas <input name="sofas" type="number" min="0" max="50" value="0"></label>
+      <label>Beds <input name="beds" type="number" min="0" max="50" value="0"></label>
+    </div>
+  </fieldset>
+  <button type="submit">Plan my home</button>
+</form>
+{% endblock %}

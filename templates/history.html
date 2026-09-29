@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}History - PocketSmart AI{% endblock %}
+{% block content %}
+<h1>Your plans</h1>
+<p class="lead">Everything you've planned, saved in one place.</p>
+{% if rows %}
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Date</th><th>Type</th><th>Budget</th><th>Planned</th><th></th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.created_at.strftime("%d %b %Y, %H:%M") }}</td>
+    <td><span class="pill {{ r.category }}">{{ r.category|capitalize }}</span></td>
+    <td>₹{{ "{:,.0f}".format(r.inputs_data.budget) }}</td>
+    <td><strong>₹{{ "{:,.0f}".format(r.result_data.total) }}</strong></td>
+    <td><a href="/recommendations-details/{{ r.id }}">Open →</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">Nothing saved yet. <a href="/dashboard">Start a plan</a> and it will show up here.</p>
+{% endif %}
+{% endblock %}
